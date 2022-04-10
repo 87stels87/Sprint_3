@@ -11,12 +11,13 @@ import java.util.ArrayList;
 import static io.restassured.RestAssured.*;
 
 public class ScooterRegisterCourier {
-
+private String login;
+private String password;
     /*
-    метод регистрации нового курьера
-    возвращает список из логина и пароля
-    если регистрация не удалась, возвращает пустой список
-    */
+            метод регистрации нового курьера
+            возвращает список из логина и пароля
+            если регистрация не удалась, возвращает пустой список
+            */
     public ArrayList<String> registerNewCourierAndReturnLoginPassword() {
 
         // с помощью библиотеки RandomStringUtils генерируем логин

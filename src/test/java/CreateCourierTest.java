@@ -14,11 +14,6 @@ import static org.hamcrest.CoreMatchers.*;
 public class CreateCourierTest extends BaseTest {
 
 
-    @Before
-    public void setUp() {
-        RestAssured.baseURI = "https://qa-scooter.praktikum-services.ru";
-    }
-
     @Test
     @DisplayName("Проверка создания нового курьера") // имя теста
     @Description("Тест проверяет создание нового курьера со всеми валидными параметрами") // о
