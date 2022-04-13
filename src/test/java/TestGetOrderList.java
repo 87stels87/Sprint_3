@@ -4,6 +4,7 @@ import io.restassured.response.Response;
 import org.junit.Test;
 
 import static io.restassured.RestAssured.given;
+import static java.net.HttpURLConnection.HTTP_OK;
 import static org.hamcrest.CoreMatchers.notNullValue;
 
 public class TestGetOrderList extends BaseTest {
@@ -19,6 +20,6 @@ public class TestGetOrderList extends BaseTest {
                 .assertThat()
                 .body("orders", notNullValue())
                 .and()
-                .statusCode(200);
+                .statusCode(HTTP_OK);
     }
 }

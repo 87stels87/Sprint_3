@@ -4,6 +4,7 @@ import io.restassured.response.Response;
 import org.junit.Test;
 
 import static io.restassured.RestAssured.given;
+import static java.net.HttpURLConnection.*;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 
@@ -27,7 +28,7 @@ public class LoginCourierTest extends BaseTest {
                 .assertThat()
                 .body("id", notNullValue())
                 .and()
-                .statusCode(200);
+                .statusCode(HTTP_OK);
     }
 
     @Test
@@ -44,7 +45,7 @@ public class LoginCourierTest extends BaseTest {
                 .assertThat()
                 .body("message", equalTo("Недостаточно данных для входа"))
                 .and()
-                .statusCode(400);
+                .statusCode(HTTP_BAD_REQUEST);
     }
 
     @Test
@@ -61,7 +62,7 @@ public class LoginCourierTest extends BaseTest {
                 .assertThat()
                 .body("message", equalTo("Недостаточно данных для входа"))
                 .and()
-                .statusCode(400);
+                .statusCode(HTTP_BAD_REQUEST);
     }
 
     @Test
@@ -78,6 +79,6 @@ public class LoginCourierTest extends BaseTest {
                 .assertThat()
                 .body("message", equalTo("Учетная запись не найдена"))
                 .and()
-                .statusCode(404);
+                .statusCode(HTTP_NOT_FOUND);
     }
 }

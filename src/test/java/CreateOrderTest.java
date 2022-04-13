@@ -4,6 +4,7 @@ import io.restassured.response.Response;
 import org.junit.Test;
 
 import static io.restassured.RestAssured.given;
+import static java.net.HttpURLConnection.HTTP_CREATED;
 import static org.hamcrest.CoreMatchers.notNullValue;
 
 public class CreateOrderTest extends BaseTest {
@@ -22,7 +23,7 @@ public class CreateOrderTest extends BaseTest {
                 .assertThat()
                 .body("track", notNullValue())
                 .and()
-                .statusCode(201);
+                .statusCode(HTTP_CREATED);
     }
 
     @Test
@@ -39,7 +40,7 @@ public class CreateOrderTest extends BaseTest {
                 .assertThat()
                 .body("track", notNullValue())
                 .and()
-                .statusCode(201);
+                .statusCode(HTTP_CREATED);
     }
 
     @Test
@@ -56,7 +57,7 @@ public class CreateOrderTest extends BaseTest {
                 .assertThat()
                 .body("track", notNullValue())
                 .and()
-                .statusCode(201);
+                .statusCode(HTTP_CREATED);
     }
 
     @Test
@@ -73,7 +74,7 @@ public class CreateOrderTest extends BaseTest {
                 .assertThat()
                 .body("track", notNullValue())
                 .and()
-                .statusCode(201);
+                .statusCode(HTTP_CREATED);
     }
 
 

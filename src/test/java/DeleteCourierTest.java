@@ -4,6 +4,8 @@ import io.restassured.response.Response;
 import org.junit.Test;
 
 import static io.restassured.RestAssured.given;
+import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
+import static java.net.HttpURLConnection.HTTP_OK;
 import static org.hamcrest.CoreMatchers.equalTo;
 
 public class DeleteCourierTest extends BaseTest {
@@ -42,7 +44,7 @@ public class DeleteCourierTest extends BaseTest {
                 .assertThat()
                 .body("ok", equalTo(true))
                 .and()
-                .statusCode(200);
+                .statusCode(HTTP_OK);
     }
 
     @Test
@@ -57,7 +59,7 @@ public class DeleteCourierTest extends BaseTest {
                 .assertThat()
                 .body("message", equalTo("Курьера с таким id нет."))
                 .and()
-                .statusCode(404);
+                .statusCode(HTTP_NOT_FOUND);
     }
 
 

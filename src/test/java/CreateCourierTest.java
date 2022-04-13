@@ -4,6 +4,7 @@ import io.restassured.response.Response;
 import org.junit.Test;
 
 import static io.restassured.RestAssured.given;
+import static java.net.HttpURLConnection.*;
 import static org.hamcrest.CoreMatchers.equalTo;
 
 public class CreateCourierTest extends BaseTest {
@@ -22,7 +23,7 @@ public class CreateCourierTest extends BaseTest {
                 .assertThat()
                 .body("ok", equalTo(true))
                 .and()
-                .statusCode(201);
+                .statusCode(HTTP_CREATED);
     }
 
     @Test
@@ -44,7 +45,7 @@ public class CreateCourierTest extends BaseTest {
                 .assertThat()
                 .body("message", equalTo("Этот логин уже используется. Попробуйте другой."))
                 .and()
-                .statusCode(409);
+                .statusCode(HTTP_CONFLICT);
     }
 
     @Test
@@ -61,7 +62,7 @@ public class CreateCourierTest extends BaseTest {
                 .assertThat()
                 .body("message", equalTo("Недостаточно данных для создания учетной записи"))
                 .and()
-                .statusCode(400);
+                .statusCode(HTTP_BAD_REQUEST);
     }
 
     @Test
@@ -78,7 +79,7 @@ public class CreateCourierTest extends BaseTest {
                 .assertThat()
                 .body("message", equalTo("Недостаточно данных для создания учетной записи"))
                 .and()
-                .statusCode(400);
+                .statusCode(HTTP_BAD_REQUEST);
     }
 
     @Test
@@ -95,7 +96,7 @@ public class CreateCourierTest extends BaseTest {
                 .assertThat()
                 .body("message", equalTo("Недостаточно данных для создания учетной записи"))
                 .and()
-                .statusCode(400);
+                .statusCode(HTTP_BAD_REQUEST);
     }
 }
 
