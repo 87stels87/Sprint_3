@@ -1,98 +1,101 @@
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Before;
 import org.junit.Test;
 
-import java.io.File;
-
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.equalTo;
 
 public class CreateCourierTest extends BaseTest {
 
-
     @Test
-    @DisplayName("Проверка создания нового курьера") // имя теста
-    @Description("Тест проверяет создание нового курьера со всеми валидными параметрами") // о
-    public void testCreateNewCourier() {
+    @DisplayName("Проверка создания нового курьера")
+    @Description("Проверка создания нового курьера")
 
+    public void testCreateNewCourier() {
         Response response = given()
-                .header("Content-type", "application/json")
-                .and()
-                .body(registerRequestBody)
+                .spec(RestAssuredClient.getBaseSpec())
+                .body(REGISTER_REQUEST_BODY)
                 .when()
-                .post("/api/v1/courier");
-        response.then().assertThat().body("ok", equalTo(true))
-                .and().statusCode(201);
+                .post(COURIER_CREATE_PATH);
+        response.then()
+                .assertThat()
+                .body("ok", equalTo(true))
+                .and()
+                .statusCode(201);
     }
 
     @Test
-    @DisplayName("Провера создания курьера с уже существующим логином") // имя теста
-    @Description("Тест проверяет, что новый курьер не создастся при повторном логине") // о
+    @DisplayName("Провера создания курьера с уже существующим логином")
+    @Description("Провера создания курьера с уже существующим логином")
+
     public void testCreateIdentialCourier() {
         given()
-                .header("Content-type", "application/json")
-                .and()
-                .body(registerRequestBody)
+                .spec(RestAssuredClient.getBaseSpec())
+                .body(REGISTER_REQUEST_BODY)
                 .when()
-                .post("/api/v1/courier");
+                .post(COURIER_CREATE_PATH);
         Response response = given()
-                .header("Content-type", "application/json")
-                .and()
-                .body(registerRequestBody)
+                .spec(RestAssuredClient.getBaseSpec())
+                .body(REGISTER_REQUEST_BODY)
                 .when()
-                .post("/api/v1/courier");
-        response.then().assertThat().body("message", equalTo("Этот логин уже используется. Попробуйте другой."))
-                .and().statusCode(409);
-
+                .post(COURIER_CREATE_PATH);
+        response.then()
+                .assertThat()
+                .body("message", equalTo("Этот логин уже используется. Попробуйте другой."))
+                .and()
+                .statusCode(409);
     }
 
     @Test
-    @DisplayName("Провера создания курьера без обязательного параметра Логин") // имя теста
-    @Description("Тест проверяет, что новый курьер не создастся без параметра Логин") //
+    @DisplayName("Провера создания курьера без обязательного параметра Логин")
+    @Description("Провера создания курьера без обязательного параметра Логин")
+
     public void testCreateNewCourierWithoutLogin() {
-
         Response response = given()
-                .header("Content-type", "application/json")
-                .and()
-                .body(registerRequestBodyWithoutLogin)
+                .spec(RestAssuredClient.getBaseSpec())
+                .body(REGISTER_REQUEST_BODY_WITHOUT_LOGIN)
                 .when()
-                .post("/api/v1/courier");
-        response.then().assertThat().body("message", equalTo("Недостаточно данных для создания учетной записи"))
-                .and().statusCode(400);
+                .post(COURIER_CREATE_PATH);
+        response.then()
+                .assertThat()
+                .body("message", equalTo("Недостаточно данных для создания учетной записи"))
+                .and()
+                .statusCode(400);
     }
 
     @Test
-    @DisplayName("Провера создания курьера без обязательного параметра Пароль") // имя теста
-    @Description("Тест проверяет, что новый курьер не создастся без параметра Пароль")
+    @DisplayName("Провера создания курьера без обязательного параметра Пароль")
+    @Description("Провера создания курьера без обязательного параметра Пароль")
+
     public void testCreateNewCourierWithoutPassword() {
-
         Response response = given()
-                .header("Content-type", "application/json")
-                .and()
-                .body(registerRequestBodyWithoutPassword)
+                .spec(RestAssuredClient.getBaseSpec())
+                .body(REGISTER_REQUEST_BODY_WITHOUT_PASSWORD)
                 .when()
-                .post("/api/v1/courier");
-        response.then().assertThat().body("message", equalTo("Недостаточно данных для создания учетной записи"))
-                .and().statusCode(400);
+                .post(COURIER_CREATE_PATH);
+        response.then()
+                .assertThat()
+                .body("message", equalTo("Недостаточно данных для создания учетной записи"))
+                .and()
+                .statusCode(400);
     }
 
     @Test
-    @DisplayName("Провера создания курьера без обязательного параметров Логин и Пароль") // имя теста
-    @Description("Тест проверяет, что новый курьер не создастся без параметров Логин и Пароль")
+    @DisplayName("Провера создания курьера без обязательного параметров Логин и Пароль")
+    @Description("Провера создания курьера без обязательного параметров Логин и Пароль")
+
     public void testCreateNewCourierWithoutPasswordAndLogin() {
         Response response = given()
-                .header("Content-type", "application/json")
-                .and()
-                .body(registerRequestBodyWithoutPasswordAndLogin)
+                .spec(RestAssuredClient.getBaseSpec())
+                .body(REGISTER_REQUEST_BODY_WITHOUT_PASSWORD_AND_LOGIN)
                 .when()
-                .post("/api/v1/courier");
-        response.then().assertThat().body("message", equalTo("Недостаточно данных для создания учетной записи"))
-                .and().statusCode(400);
+                .post(COURIER_CREATE_PATH);
+        response.then()
+                .assertThat()
+                .body("message", equalTo("Недостаточно данных для создания учетной записи"))
+                .and()
+                .statusCode(400);
     }
-
 }
 
