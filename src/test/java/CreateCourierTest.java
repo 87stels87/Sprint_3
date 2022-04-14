@@ -1,6 +1,8 @@
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static io.restassured.RestAssured.given;
@@ -16,8 +18,8 @@ public class CreateCourierTest extends BaseTest {
     public void testCreateNewCourier() {
         Response response = given()
                 .spec(RestAssuredClient.getBaseSpec())
-                .body(REGISTER_REQUEST_BODY)
-                .when()
+                .body(courierRandomLoginPasswordFirstName)
+                .when().log().all()
                 .post(COURIER_CREATE_PATH);
         response.then()
                 .assertThat()
@@ -33,12 +35,12 @@ public class CreateCourierTest extends BaseTest {
     public void testCreateIdentialCourier() {
         given()
                 .spec(RestAssuredClient.getBaseSpec())
-                .body(REGISTER_REQUEST_BODY)
-                .when()
+                .body(courierRandomLoginPasswordFirstName)
+                .when().log().all()
                 .post(COURIER_CREATE_PATH);
         Response response = given()
                 .spec(RestAssuredClient.getBaseSpec())
-                .body(REGISTER_REQUEST_BODY)
+                .body(courierRandomLoginPasswordFirstName)
                 .when()
                 .post(COURIER_CREATE_PATH);
         response.then()
@@ -55,8 +57,8 @@ public class CreateCourierTest extends BaseTest {
     public void testCreateNewCourierWithoutLogin() {
         Response response = given()
                 .spec(RestAssuredClient.getBaseSpec())
-                .body(REGISTER_REQUEST_BODY_WITHOUT_LOGIN)
-                .when()
+                .body(courierRandomPasswordFirstName)
+                .when().log().all()
                 .post(COURIER_CREATE_PATH);
         response.then()
                 .assertThat()
@@ -72,11 +74,11 @@ public class CreateCourierTest extends BaseTest {
     public void testCreateNewCourierWithoutPassword() {
         Response response = given()
                 .spec(RestAssuredClient.getBaseSpec())
-                .body(REGISTER_REQUEST_BODY_WITHOUT_PASSWORD)
-                .when()
+                .body(courierRandomLoginFirstName)
+                .when().log().all()
                 .post(COURIER_CREATE_PATH);
         response.then()
-                .assertThat()
+                .assertThat().log().all()
                 .body("message", equalTo("Недостаточно данных для создания учетной записи"))
                 .and()
                 .statusCode(HTTP_BAD_REQUEST);
@@ -89,8 +91,8 @@ public class CreateCourierTest extends BaseTest {
     public void testCreateNewCourierWithoutPasswordAndLogin() {
         Response response = given()
                 .spec(RestAssuredClient.getBaseSpec())
-                .body(REGISTER_REQUEST_BODY_WITHOUT_PASSWORD_AND_LOGIN)
-                .when()
+                .body(courierRandomFirstName)
+                .when().log().all()
                 .post(COURIER_CREATE_PATH);
         response.then()
                 .assertThat()

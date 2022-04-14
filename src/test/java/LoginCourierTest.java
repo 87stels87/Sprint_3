@@ -11,68 +11,70 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 public class LoginCourierTest extends BaseTest {
 
     @Test
-    @DisplayName("Проверка авторизации курьера")
-    @Description("Проверка авторизации курьера")
-    public void testLoginCourier() {
+    @DisplayName("Проверка авторизации курьера с паролем,именем и логином")
+    @Description("Проверка авторизации курьера с паролем,именем и логином")
+    public void testLoginCourierWithLoginPasswordFirstName() {
         given()
                 .spec(RestAssuredClient.getBaseSpec())
-                .body(REGISTER_REQUEST_BODY)
-                .when()
+                .body(courierRandomLoginPasswordFirstName)
+                .when().log().all()
                 .post(COURIER_CREATE_PATH);
         Response response = given()
                 .spec(RestAssuredClient.getBaseSpec())
-                .body(REGISTER_REQUEST_BODY)
+                .body(courierRandomLoginPasswordFirstName)
                 .when()
                 .post(COURIER_LOGIN_PATH);
         response.then()
                 .assertThat()
                 .body("id", notNullValue())
-                .and()
+                .and().log().all()
                 .statusCode(HTTP_OK);
     }
 
-    @Test
-    @DisplayName("Проверка логина курьера без указания пароля")
-    @Description("Проверка логина курьера без указания пароля")
-    public void testLoginCourierWithoutPassword() {
-
-        Response response = given()
-                .spec(RestAssuredClient.getBaseSpec())
-                .body(LOGIN_REQUEST_BODY_WITHOUT_PASSWORD)
-                .when()
-                .post(COURIER_LOGIN_PATH);
-        response.then()
-                .assertThat()
-                .body("message", equalTo("Недостаточно данных для входа"))
-                .and()
-                .statusCode(HTTP_BAD_REQUEST);
-    }
-
-    @Test
+   @Test
     @DisplayName("Проверка логина курьера без указания логина")
     @Description("Проверка логина курьера без указания логина")
     public void testLoginCourierWithoutLogin() {
-
         Response response = given()
                 .spec(RestAssuredClient.getBaseSpec())
-                .body(LOGIN_REQUEST_BODY_WITHOUT_LOGIN)
+                .body(courierRandomPasswordFirstName)
+                .when()
+                .post(COURIER_LOGIN_PATH);
+       response.then()
+               .assertThat()
+               .body("message", equalTo("Недостаточно данных для входа"))
+               .and()
+               .statusCode(HTTP_BAD_REQUEST);
+   }
+
+    @Test
+    @DisplayName("Проверка авторизации курьера с паролем и логином")
+    @Description("Проверка авторизации курьера с паролем и логином")
+    public void testLoginCourierWithLoginPassword() {
+        given()
+                .spec(RestAssuredClient.getBaseSpec())
+                .body(courierRandomLoginPassword)
+                .when().log().all()
+                .post(COURIER_CREATE_PATH);
+        Response response = given()
+                .spec(RestAssuredClient.getBaseSpec())
+                .body(courierRandomLoginPassword)
                 .when()
                 .post(COURIER_LOGIN_PATH);
         response.then()
                 .assertThat()
-                .body("message", equalTo("Недостаточно данных для входа"))
-                .and()
-                .statusCode(HTTP_BAD_REQUEST);
+                .body("id", notNullValue())
+                .and().log().all()
+                .statusCode(HTTP_OK);
     }
 
     @Test
     @DisplayName("Проверка логина курьера  с несуществующим логином")
     @Description("Проверка логина курьера  с несуществующим логином")
     public void testLoginCourierNonExistentLogin() {
-
         Response response = given()
                 .spec(RestAssuredClient.getBaseSpec())
-                .body(REGISTER_REQUEST_BODY_WITHOUT_FIRST_NAME)
+                .body(courierRandomLoginPasswordFirstName)
                 .when()
                 .post(COURIER_LOGIN_PATH);
         response.then()

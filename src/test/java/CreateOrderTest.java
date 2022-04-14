@@ -1,3 +1,4 @@
+
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
@@ -16,11 +17,11 @@ public class CreateOrderTest extends BaseTest {
     public void testCreateOrdersColorBlack() {
         Response response = given()
                 .spec(RestAssuredClient.getBaseSpec())
-                .body(PARAMETERS_ORDER_COLOR_BLACK)
-                .when()
+                .body(orderWithColorBlack)
+                .when().log().all()
                 .post(ORDER_CREATE_PATH);
         response.then()
-                .assertThat()
+                .assertThat().log().all()
                 .body("track", notNullValue())
                 .and()
                 .statusCode(HTTP_CREATED);
@@ -33,7 +34,7 @@ public class CreateOrderTest extends BaseTest {
     public void testCreateOrdersColorGray() {
         Response response = given()
                 .spec(RestAssuredClient.getBaseSpec())
-                .body(PARAMETERS_ORDER_COLOR_GREY)
+                .body(orderWithColorGray)
                 .when()
                 .post(ORDER_CREATE_PATH);
         response.then()
@@ -50,7 +51,7 @@ public class CreateOrderTest extends BaseTest {
     public void testCreateOrdersColorGrayAndBlack() {
         Response response = given()
                 .spec(RestAssuredClient.getBaseSpec())
-                .body(PARAMETERS_ORDER_COLOR_GREY_AND_BLACK)
+                .body(orderWithColorBlackAndGray)
                 .when()
                 .post(ORDER_CREATE_PATH);
         response.then()
@@ -67,7 +68,7 @@ public class CreateOrderTest extends BaseTest {
     public void testCreateOrdersWithoutColors() {
         Response response = given()
                 .spec(RestAssuredClient.getBaseSpec())
-                .body(PARAMETERS_ORDER_WITHOUT_COLORS)
+                .body(orderWithoutColor)
                 .when()
                 .post(ORDER_CREATE_PATH);
         response.then()
@@ -76,7 +77,4 @@ public class CreateOrderTest extends BaseTest {
                 .and()
                 .statusCode(HTTP_CREATED);
     }
-
-
-
 }

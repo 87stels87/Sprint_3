@@ -18,14 +18,14 @@ public class DeleteCourierTest extends BaseTest {
         //создаем нового курьера
         given()
                 .spec(RestAssuredClient.getBaseSpec())
-                .body(REGISTER_REQUEST_BODY)
+                .body(courierRandomLoginPassword)
                 .when()
                 .post(COURIER_CREATE_PATH);
         //получаем id созданного курьера
         Response response =
                 given()
                         .spec(RestAssuredClient.getBaseSpec())
-                        .body(REGISTER_REQUEST_BODY)
+                        .body(courierRandomLoginPassword)
                         .when()
                         .post(COURIER_LOGIN_PATH);
         response.then()
@@ -61,6 +61,4 @@ public class DeleteCourierTest extends BaseTest {
                 .and()
                 .statusCode(HTTP_NOT_FOUND);
     }
-
-
 }
